@@ -1,70 +1,94 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# SOL/USDT Trading Dashboard
 
-## Available Scripts
+This project is a full-stack application that displays a **live candlestick chart** and **live order book** for the **SOL/USDT trading pair**. It retrieves real-time updates using WebSocket connections from the Binance exchange.
 
-In the project directory, you can run:
 
-### `npm start`
+## Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Frontend:
+- **React**: For building the user interface and handling component state.
+- **Lightweight Charts**: To display the real-time candlestick chart.
+- **Socket.IO Client**: For establishing a real-time WebSocket connection to fetch candlestick and order book updates.
+- **Axios**: For fetching historical candlestick data from the Binance public API.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Backend:
+- **Node.js & Express**: For running the WebSocket server that listens to Binance WebSocket streams for real-time data.
+- **Socket.IO**: To communicate between the frontend and backend in real-time.
 
-### `npm test`
+## Installation and Setup
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+Before you begin, make sure you have the following installed:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Node.js** (v18 or higher)
+- **npm** (Node Package Manager)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 1. Backend Setup (Node.js)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The backend listens for data from the Binance WebSocket API and sends it to the client in real-time.
 
-### `npm run eject`
+1. Navigate to the backend folder:
+   ```bash
+   cd api
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2. Install the necessary dependencies:
+   ```bash
+   npm install
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Run the server:
+   ```bash
+   npm start
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   The server will start running on `http://localhost:3001`.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 2. Frontend Setup (React)
 
-## Learn More
+1. Install the dependencies:
+   ```bash
+   npm install
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2. Start the React development server:
+   ```bash
+   npm start
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   The React app should automatically open in your default browser at `http://localhost:3000`.
 
-### Code Splitting
+### 3. Real-Time WebSocket Communication
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **Candlestick Data**: The application fetches historical candlestick data using the Binance public API when it first loads. It then switches to listening for real-time updates via the Binance WebSocket API. The new data is appended to the existing chart in real-time, ensuring that the user always sees up-to-date price movements.
+  
+- **Order Book Data**: The order book is populated with real-time data. Both the **bid** and **ask** sides of the order book are updated continuously via WebSocket, showing the current state of buy and sell orders for SOL/USDT. The top 8 orders on both sides are displayed for clarity.
 
-### Analyzing the Bundle Size
+## How the Application Works
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. **Initial Data Fetch**: 
+   - When the user first visits the application, a request is made to the Binance API to fetch the last 1000 candlesticks (historical data) for the SOL/USDT pair. This populates the initial candlestick chart.
 
-### Making a Progressive Web App
+2. **Real-Time Data**:
+   - Once the application is loaded, it connects to the Binance WebSocket API to receive real-time updates for both the candlestick chart and the order book. These updates are displayed without the need to refresh the page.
+   - The order book continuously shows the live bids and asks for the SOL/USDT pair, and the candlestick chart updates each time a new candle is formed.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+3. **WebSocket Lifecycle**:
+   - The WebSocket connection is established when the app loads, and listeners are set up for both the candlestick and order book updates.
+   - If the user closes or navigates away from the page, the WebSocket connection is properly cleaned up to prevent memory leaks or unnecessary server connections.
 
-### Advanced Configuration
+## Key Features and Functionality
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+1. **Live Candlestick Chart**:
+   - The app provides a live, real-time candlestick chart for the SOL/USDT trading pair. It displays the latest price movements, and the data is updated in real-time via WebSocket.
 
-### Deployment
+2. **Live Order Book**:
+   - The order book shows the top 8 bids and asks for SOL/USDT in real-time. It updates continuously as new orders come in or get filled.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+3. **Total Quantity Calculation**:
+   - The order book includes a cumulative total column that shows the running total of quantities up to each price level, helping users visualize the liquidity at each price.
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+4. **WebSocket Communication**:
+   - The app uses WebSockets to fetch and update both the candlestick chart and the order book in real-time. This ensures that the user always sees the most current trading information without needing to refresh the page.
