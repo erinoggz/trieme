@@ -11,3 +11,50 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.order-book {
+    justify-content: space-between;
+    height: 312px;
+}
+
+.order-section {
+    flex: 1;
+    margin-right: 2px;
+}
+
+.order-section:last-child {
+    margin-right: 0;
+}
+
+.order-title-bids {
+    color: green;
+}
+
+.order-title-asks {
+    color: red;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-table th {
+    text-align: left;
+}
+
+.order-table th.right-align {
+    text-align: right;
+}
+
+.order-table td.right-align {
+    text-align: right;
+}
+
+.order-row-bid {
+    background-color: #e8f5e9;
+}
+
+.order-row-ask {
+    background-color: #ffebee;
+}
